@@ -1,0 +1,23 @@
+# Requirements para Python 3.6.8 (cPanel)
+# Versiones compatibles con Python 3.6
+
+Django==3.2.23
+
+djangorestframework==3.14.0
+django-cors-headers==3.13.0
+PyMySQL==1.0.2
+requests==2.27.1
+beautifulsoup4==4.11.1
+lxml==4.9.1
+openpyxl==3.0.10
+webcolors==1.12
+python-dotenv==0.21.0
+
+# Playwright NO es compatible con Python 3.6
+# matplotlib requiere versión específica para Python 3.6
+matplotlib==3.3.4
+
+# Type checking (opcional para desarrollo)
+# django-stubs
+# types-requests
+# types-beautifulsoup4
