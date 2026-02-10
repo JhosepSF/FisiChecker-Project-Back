@@ -1,5 +1,5 @@
 # audits/checks/criteria/p1/c_1_2_7_extended_ad_prerecorded.py
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Tuple
 
 from ....wcag.context import PageContext
 from ....wcag.constants import WCAG_META
@@ -154,7 +154,7 @@ def _ai_review(details: Dict[str, Any], html_sample: Optional[str] = None) -> Di
         return {"ai_used": False, "ai_error": str(e), "manual_required": False}
 
 
-def _verdict_from_127(d: Dict[str, Any]) -> tuple[str, bool]:
+def _verdict_from_127(d: Dict[str, Any]) -> Tuple[str, bool]:
     """
     Reglas duras 1.2.7 (AD extendida — pregrabado):
       - si NO hay videos (videos_total == 0) -> NA

@@ -1,5 +1,5 @@
 # audits/checks/criteria/p1/c_1_2_8_media_alt_prerecorded.py
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Tuple
 
 from ....wcag.context import PageContext
 from ....wcag.constants import WCAG_META
@@ -152,7 +152,7 @@ def _ai_review(details: Dict[str, Any], html_sample: Optional[str] = None) -> Di
         return {"ai_used": False, "ai_error": str(e), "manual_required": False}
 
 
-def _verdict_from_128(d: Dict[str, Any]) -> tuple[str, bool]:
+def _verdict_from_128(d: Dict[str, Any]) -> Tuple[str, bool]:
     """
     1.2.8 (AAA) — Alternativa para medios (pregrabado)
       - N/A si no hay videos (videos_total==0) o si nadie requiere alternativa (requiring_alt==0)

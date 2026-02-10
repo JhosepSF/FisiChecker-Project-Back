@@ -1,5 +1,5 @@
 # audits/checks/criteria/p1/c_1_2_5_audio_description_prerecorded.py
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List, Optional, Tuple
 
 from ....wcag.context import PageContext
 from ....wcag.constants import WCAG_META
@@ -253,7 +253,7 @@ def _ai_review(details: Dict[str, Any], html_sample: Optional[str] = None) -> Di
     except Exception as e:
         return {"ai_used": False, "ai_error": str(e), "manual_required": False}
 
-def _verdict_from_125(d: Dict[str, Any]) -> tuple[str, bool]:
+def _verdict_from_125(d: Dict[str, Any]) -> Tuple[str, bool]:
     """
     Reglas duras 1.2.5 (Audiodescripción — pregrabado):
       - si NO hay vídeos (videos_total == 0) -> NA

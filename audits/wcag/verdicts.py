@@ -1,5 +1,5 @@
 # audits/wcag/verdicts.py
-from typing import Dict, Any, Tuple
+from typing import Dict, Any, Tuple, Optional
 from .constants import WCAG_META  # { "1.4.3": {"title":..., "level":..., "principle":...}, ... }
 
 VERDICT_PASS = "CUMPLE"
@@ -14,7 +14,7 @@ def _ratio_to_verdict(ratio: float, pass_thr: float, partial_thr: float) -> str:
         return VERDICT_PARTIAL
     return VERDICT_FAIL
 
-def infer_verdict_for_code(code: str, res: Dict[str, Any]) -> Tuple[str, float | None]:
+def infer_verdict_for_code(code: str, res: Dict[str, Any]) -> Tuple[str, Optional[float]]:
     """
     Devuelve (verdict, score_hint) usando heurísticas por código.
     'res' es el bloque {'passed': bool, 'details': {...}} que salieron de tus checks.

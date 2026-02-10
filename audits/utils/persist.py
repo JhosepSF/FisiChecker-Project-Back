@@ -1,5 +1,5 @@
 # audits/utils/persist.py
-from typing import Dict, Any, List, Optional, Set, Type
+from typing import Dict, Any, List, Optional, Set, Type, Tuple
 from django.db import transaction, models
 
 from audits.models import WebsiteAudit, WebsiteAuditResult
@@ -11,7 +11,7 @@ from audits.wcag.constants import WCAG_META
 VERDICT_TO_SCORE = {"fail": 0, "partial": 1, "pass": 2, "na": 0}
 
 # Claves que, si todas están presentes y todas son 0, implican N/A automático
-NA_IF_ZERO_KEYS: Dict[str, tuple[str, ...]] = {
+NA_IF_ZERO_KEYS: Dict[str, Tuple[str, ...]] = {
     "1.2.1": ("media_total",),
     "1.2.2": ("requiring_captions", "videos_total"),
     "1.2.3": ("requiring_ad_or_alt", "videos_total"),

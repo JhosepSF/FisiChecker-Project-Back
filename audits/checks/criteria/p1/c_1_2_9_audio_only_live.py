@@ -145,7 +145,7 @@ def _ai_review(details: Dict[str, Any], html_sample: Optional[str] = None) -> Di
         return {"ai_used": False, "ai_error": str(e), "manual_required": False}
 
 
-def _verdict_from_129(d: Dict[str, Any]) -> tuple[str, bool]:
+def _verdict_from_129(d: Dict[str, Any]) -> Tuple[str, bool]:
     """
     1.2.9 (AAA) — Solo audio (en directo) — alternativa
       - N/A si no hay audio en directo (live_audio_total==0)

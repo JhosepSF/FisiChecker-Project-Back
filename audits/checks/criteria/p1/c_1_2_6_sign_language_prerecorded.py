@@ -219,7 +219,7 @@ def _ai_review(details: Dict[str, Any], html_sample: Optional[str] = None) -> Di
     except Exception as e:
         return {"ai_used": False, "ai_error": str(e), "manual_required": False}
 
-def _verdict_from_126(d: Dict[str, Any]) -> tuple[str, bool]:
+def _verdict_from_126(d: Dict[str, Any]) -> Tuple[str, bool]:
     """
     Reglas duras 1.2.6 (Lengua de señas — pregrabado):
       - si NO hay videos (videos_total == 0) -> NA

@@ -1,5 +1,5 @@
 # audits/views.py
-from typing import Any, Mapping, cast
+from typing import Any, Mapping, Optional, cast
 import traceback
 
 from django.conf import settings
@@ -29,7 +29,7 @@ def _parse_mode(v: str) -> CheckMode:
         return CheckMode.AUTO
     return CheckMode.RAW
 
-def _results_accessor_name() -> str | None:
+def _results_accessor_name() -> Optional[str]:
     # Busca el accessor reverse hacia WebsiteAuditResult (p.ej. "websiteauditresult_set")
     for rel in WebsiteAudit._meta.related_objects:
         if rel.related_model is AuditRequestSerializer:
