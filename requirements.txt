@@ -10,3 +10,9 @@ playwright
 openpyxl
 webcolors
 matplotlib
+python-dotenv
+
+# Type checking support
+django-stubs
+types-requests
+types-beautifulsoup4

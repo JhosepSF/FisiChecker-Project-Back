@@ -1,0 +1,19 @@
+{
+  "include": [
+    "."
+  ],
+  "exclude": [
+    "**/node_modules",
+    "**/__pycache__",
+    "**/migrations",
+    ".venv",
+    "venv"
+  ],
+  "reportMissingImports": true,
+  "reportMissingTypeStubs": false,
+  "pythonVersion": "3.10",
+  "pythonPlatform": "Windows",
+  "typeCheckingMode": "basic",
+  "venvPath": ".",
+  "venv": ".venv"
+}

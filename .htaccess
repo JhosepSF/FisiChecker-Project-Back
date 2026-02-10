@@ -1,0 +1,33 @@
+PassengerAppRoot "/home/taw/fisichecker"
+PassengerBaseURI "/"
+PassengerPython "/home/taw/virtualenv/fisichecker/bin/python3"
+PassengerEnabled On
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ passenger_wsgi.py [L]
+</IfModule>
+
+# Seguridad: Proteger archivos sensibles
+<FilesMatch "\.(py|pyc|db|sqlite3|log|json|txt)$">
+    Require all denied
+</FilesMatch>
+
+# Permitir acceso a archivos estáticos
+<FilesMatch "\.(css|js|jpg|jpeg|png|gif|svg|woff|woff2|ttf|eot|ico)$">
+    Require all granted
+</FilesMatch>
+
+# Permitir passenger_wsgi.py
+<Files "passenger_wsgi.py">
+    Require all granted
+</Files>
+
+# Headers de seguridad
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "SAMEORIGIN"
+    Header always set X-XSS-Protection "1; mode=block"
+</IfModule>

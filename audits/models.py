@@ -1,7 +1,13 @@
 # audits/models.py
+from __future__ import annotations
 from django.db import models
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from datetime import datetime
 
 class WebsiteAudit(models.Model):
+    id: int  # Pylance type hint
     url = models.URLField()
     fetched_at = models.DateTimeField(auto_now_add=True)
     status_code = models.PositiveIntegerField(null=True, blank=True)
@@ -39,6 +45,7 @@ class WebsiteAuditResult(models.Model):
         ("mixed", "Mixed"),
     ]
 
+    id: int  # Pylance type hint
     audit = models.ForeignKey(
         WebsiteAudit,
         on_delete=models.CASCADE,

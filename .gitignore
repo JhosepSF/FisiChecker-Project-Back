@@ -1,0 +1,84 @@
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Environment variables
+.env
+.env.local
+.env.production
+
+# Virtual environments
+venv/
+.venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Static files
+/staticfiles/
+/static/
+/media/
+
+# Testing
+.coverage
+.pytest_cache/
+htmlcov/
+
+# Logs
+*.log
+audit_*.txt
+benchmark_results.csv
+
+# Backup files
+*.sql
+*.bak
+*.backup
+
+# Playwright
+.playwright/
+
+# Python
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pytype/
+
+# Jupyter
+.ipynb_checkpoints
+
+# cPanel deployment
+tmp/
+passenger_wsgi.pyc
