@@ -1,5 +1,5 @@
 # audits/checks/criteria/p1/c_1_3_6_identify_purpose.py
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, List, Optional, Tuple, Pattern
 import re
 import unicodedata
 
@@ -185,7 +185,7 @@ def _is_icon_only(el: Any) -> bool:
 # Basado en 'Common Purposes' de WCAG (no exhaustivo; bilingüe ES/EN).
 # -------------------------
 
-_COMMON_PURPOSE_PATTERNS: List[Tuple[re.Pattern, str]] = [
+_COMMON_PURPOSE_PATTERNS: List[Tuple[Pattern, str]] = [
     # navegación/estructura
     (re.compile(r"\b(home|inicio|principal)\b", re.I), "home"),
     (re.compile(r"\b(menu|men[uú])\b", re.I), "menu"),

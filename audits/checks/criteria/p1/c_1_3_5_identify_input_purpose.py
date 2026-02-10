@@ -1,5 +1,5 @@
 # audits/checks/criteria/p1/c_1_3_5_identify_input_purpose.py
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, List, Optional, Tuple, Pattern
 import re
 import unicodedata
 
@@ -68,7 +68,7 @@ _EQUIVS: Dict[str, List[str]] = {
 }
 
 # Heurísticos (ES/EN) → token esperado
-_PATTERNS: List[Tuple[re.Pattern, str]] = [
+_PATTERNS: List[Tuple[Pattern, str]] = [
     # autenticacion
     (re.compile(r"\b(contrase[nñ]a actual|current password)\b"), "current-password"),
     (re.compile(r"\b(nueva|nuevo|repetir|repetida|confirmar).*(contrase[nñ]a|password)\b"), "new-password"),
