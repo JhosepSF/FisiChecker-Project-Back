@@ -1,0 +1,10 @@
+Django==5.2.5
+
+djangorestframework
+django-cors-headers
+PyMySQL
+requests
+beautifulsoup4
+lxml
+playwright
+openpyxl

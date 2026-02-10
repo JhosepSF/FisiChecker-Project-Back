@@ -1,0 +1,6 @@
+url,status_code,elapsed_ms,score,pass,partial,fail,na
+https://interbank.pe/,403,558,0.54,41,0,5,32
+https://www.mibanco.com.pe/,200,682,0.48,34,8,6,30
+https://www.compartamos.com.pe/Peru,200,859,0.4,28,7,14,29
+https://alfinbanco.pe/,200,301,0.4,30,4,14,30
+https://www.bbva.pe/,403,243,0.54,40,0,2,36

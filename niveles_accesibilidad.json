@@ -1,0 +1,1271 @@
+{
+  "niveles_generales": {
+    "total_audits_evaluated": 115,
+    "average_accessibility_percentage": 82.19,
+    "distribution": {
+      "alto": {
+        "count": 115,
+        "percentage": 100.0
+      },
+      "moderado": {
+        "count": 0,
+        "percentage": 0.0
+      },
+      "deficiente": {
+        "count": 0,
+        "percentage": 0.0
+      },
+      "muy_deficiente": {
+        "count": 0,
+        "percentage": 0.0
+      }
+    },
+    "summary": {
+      "alto": 115,
+      "moderado": 0,
+      "deficiente": 0,
+      "muy_deficiente": 0
+    },
+    "details": [
+      {
+        "audit_id": 65,
+        "url": "https://www.bbva.pe/personas/servicios-digitales/transferencia-interbancaria.html",
+        "cumple": 37,
+        "parciales": 0,
+        "no_cumple": 2,
+        "total_evaluados": 39,
+        "porcentaje": 94.87,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 64,
+        "url": "https://www.bbva.pe/personas/productos/seguros.html",
+        "cumple": 37,
+        "parciales": 0,
+        "no_cumple": 2,
+        "total_evaluados": 39,
+        "porcentaje": 94.87,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 63,
+        "url": "https://www.bbva.pe/personas/productos/prestamos/personales/al-toque.html",
+        "cumple": 37,
+        "parciales": 0,
+        "no_cumple": 2,
+        "total_evaluados": 39,
+        "porcentaje": 94.87,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 62,
+        "url": "https://cuentas.bbva.pe/",
+        "cumple": 37,
+        "parciales": 0,
+        "no_cumple": 2,
+        "total_evaluados": 39,
+        "porcentaje": 94.87,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 61,
+        "url": "https://www.bbva.pe/",
+        "cumple": 37,
+        "parciales": 0,
+        "no_cumple": 2,
+        "total_evaluados": 39,
+        "porcentaje": 94.87,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 71,
+        "url": "https://www.citibank.com/icg/sa/latam/peru/",
+        "cumple": 36,
+        "parciales": 0,
+        "no_cumple": 3,
+        "total_evaluados": 39,
+        "porcentaje": 92.31,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 115,
+        "url": "https://www.scotiabank.com.pe/Personas/servicios/transferencias/transferencia-interbancaria-via-cce",
+        "cumple": 35,
+        "parciales": 1,
+        "no_cumple": 3,
+        "total_evaluados": 39,
+        "porcentaje": 91.03,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 113,
+        "url": "https://www.scotiabank.com.pe/Personas/Prestamos/Prestamos/prestamo-clientes",
+        "cumple": 35,
+        "parciales": 2,
+        "no_cumple": 3,
+        "total_evaluados": 40,
+        "porcentaje": 90.0,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 114,
+        "url": "https://www.scotiabank.com.pe/Personas/Seguros/default",
+        "cumple": 34,
+        "parciales": 2,
+        "no_cumple": 3,
+        "total_evaluados": 39,
+        "porcentaje": 89.74,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 111,
+        "url": "https://www.scotiabank.com.pe/Personas/Default",
+        "cumple": 34,
+        "parciales": 2,
+        "no_cumple": 3,
+        "total_evaluados": 39,
+        "porcentaje": 89.74,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 45,
+        "url": "https://www.pichincha.pe/personas/pagos/transferencias-interbancarias-cce",
+        "cumple": 34,
+        "parciales": 2,
+        "no_cumple": 3,
+        "total_evaluados": 39,
+        "porcentaje": 89.74,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 101,
+        "url": "https://www.mibanco.com.pe/",
+        "cumple": 34,
+        "parciales": 3,
+        "no_cumple": 3,
+        "total_evaluados": 40,
+        "porcentaje": 88.75,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 112,
+        "url": "https://www.scotiabank.com.pe/Personas/ahorros/default",
+        "cumple": 34,
+        "parciales": 1,
+        "no_cumple": 4,
+        "total_evaluados": 39,
+        "porcentaje": 88.46,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 100,
+        "url": "https://interbank.pe/empresas-instituciones/pagos-cobros/transferencias/transferencias-interbancarias",
+        "cumple": 38,
+        "parciales": 0,
+        "no_cumple": 5,
+        "total_evaluados": 43,
+        "porcentaje": 88.37,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 99,
+        "url": "https://interbank.pe/seguros",
+        "cumple": 38,
+        "parciales": 0,
+        "no_cumple": 5,
+        "total_evaluados": 43,
+        "porcentaje": 88.37,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 98,
+        "url": "https://interbank.pe/creditos/prestamos/prestamo-personal",
+        "cumple": 38,
+        "parciales": 0,
+        "no_cumple": 5,
+        "total_evaluados": 43,
+        "porcentaje": 88.37,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 97,
+        "url": "https://interbank.pe/cuentas/cuentas-ahorro",
+        "cumple": 38,
+        "parciales": 0,
+        "no_cumple": 5,
+        "total_evaluados": 43,
+        "porcentaje": 88.37,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 96,
+        "url": "https://interbank.pe/",
+        "cumple": 38,
+        "parciales": 0,
+        "no_cumple": 5,
+        "total_evaluados": 43,
+        "porcentaje": 88.37,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 23,
+        "url": "https://www.bn.com.pe/clientes/prestamos/prestamo-bn.asp",
+        "cumple": 32,
+        "parciales": 1,
+        "no_cumple": 4,
+        "total_evaluados": 37,
+        "porcentaje": 87.84,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 22,
+        "url": "https://www.bn.com.pe/clientes/cuentas-bancarias/ahorros-uob.asp",
+        "cumple": 32,
+        "parciales": 1,
+        "no_cumple": 4,
+        "total_evaluados": 37,
+        "porcentaje": 87.84,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 21,
+        "url": "https://www.bn.com.pe/",
+        "cumple": 32,
+        "parciales": 1,
+        "no_cumple": 4,
+        "total_evaluados": 37,
+        "porcentaje": 87.84,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 85,
+        "url": "https://www.compartamos.com.pe/Peru/Servicios/Transferencias",
+        "cumple": 33,
+        "parciales": 3,
+        "no_cumple": 4,
+        "total_evaluados": 40,
+        "porcentaje": 86.25,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 83,
+        "url": "https://www.compartamos.com.pe/Peru/Credito/Personal/Efectivo",
+        "cumple": 33,
+        "parciales": 3,
+        "no_cumple": 4,
+        "total_evaluados": 40,
+        "porcentaje": 86.25,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 35,
+        "url": "https://www.bancognb.com.pe/inicio/banca-personas/servicios/transferencias-nacionales",
+        "cumple": 33,
+        "parciales": 3,
+        "no_cumple": 4,
+        "total_evaluados": 40,
+        "porcentaje": 86.25,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 34,
+        "url": "https://www.bancognb.com.pe/inicio/banca-personas/seguros",
+        "cumple": 33,
+        "parciales": 3,
+        "no_cumple": 4,
+        "total_evaluados": 40,
+        "porcentaje": 86.25,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 32,
+        "url": "https://www.bancognb.com.pe/inicio/banca-personas/cuentas/cuenta-ahorro",
+        "cumple": 33,
+        "parciales": 3,
+        "no_cumple": 4,
+        "total_evaluados": 40,
+        "porcentaje": 86.25,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 75,
+        "url": "https://www.citibank.com/icg/sa/latam/peru/cash-management/international-payments.html",
+        "cumple": 33,
+        "parciales": 1,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 85.9,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 44,
+        "url": "https://www.pichincha.pe/personas/seguro/vida",
+        "cumple": 33,
+        "parciales": 1,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 85.9,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 29,
+        "url": "https://www.bancofalabella.pe/seguros",
+        "cumple": 33,
+        "parciales": 1,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 85.9,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 15,
+        "url": "https://www.bancom.pe/empresas/productos/servicios/especializados/transferencias",
+        "cumple": 33,
+        "parciales": 1,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 85.9,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 14,
+        "url": "https://www.bancom.pe/ayuda/seguros",
+        "cumple": 33,
+        "parciales": 1,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 85.9,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 13,
+        "url": "https://www.bancom.pe/personas/productos/prestamos-y-creditos/prestamos/personal",
+        "cumple": 33,
+        "parciales": 1,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 85.9,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 12,
+        "url": "https://www.bancom.pe/personas/promociones/cuenta-ahorro",
+        "cumple": 33,
+        "parciales": 1,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 85.9,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 11,
+        "url": "https://www.bancom.pe/personas",
+        "cumple": 33,
+        "parciales": 1,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 85.9,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 102,
+        "url": "https://www.mibanco.com.pe/categoria/full-ahorro",
+        "cumple": 32,
+        "parciales": 4,
+        "no_cumple": 4,
+        "total_evaluados": 40,
+        "porcentaje": 85.0,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 72,
+        "url": "https://www.citibank.com/icg/sa/latam/peru/cash-management/current-accounts.html",
+        "cumple": 33,
+        "parciales": 0,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 84.62,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 43,
+        "url": "https://www.pichincha.pe/personas/prestamo/garantia-liquida",
+        "cumple": 31,
+        "parciales": 4,
+        "no_cumple": 4,
+        "total_evaluados": 39,
+        "porcentaje": 84.62,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 36,
+        "url": "https://www.banbif.com.pe/Personas",
+        "cumple": 33,
+        "parciales": 0,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 84.62,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 30,
+        "url": "https://www.bancofalabella.pe/lp/transferencias-interbancarias-cuanto-demora-tipos-y-costos",
+        "cumple": 33,
+        "parciales": 0,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 84.62,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 26,
+        "url": "https://www.bancofalabella.pe/",
+        "cumple": 33,
+        "parciales": 0,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 84.62,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 105,
+        "url": "https://www.mibanco.com.pe/noticia/transferencias-diferidas",
+        "cumple": 32,
+        "parciales": 3,
+        "no_cumple": 5,
+        "total_evaluados": 40,
+        "porcentaje": 83.75,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 92,
+        "url": "https://www.icbc.com.pe/es/column/967001985058476033.html",
+        "cumple": 32,
+        "parciales": 1,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 83.33,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 74,
+        "url": "https://www.citibank.com/icg/sa/latam/colombia/corporate-cards/protection.html",
+        "cumple": 32,
+        "parciales": 1,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 83.33,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 55,
+        "url": "https://www.santander.com.pe/pagos/transferencias-a-otros-bancos-locales.html",
+        "cumple": 32,
+        "parciales": 1,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 83.33,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 54,
+        "url": "https://www.santander.com.pe/pagos/confirming.html",
+        "cumple": 32,
+        "parciales": 1,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 83.33,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 52,
+        "url": "https://www.santander.com.pe/cuentas/cuentas-corrientes.html",
+        "cumple": 32,
+        "parciales": 1,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 83.33,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 28,
+        "url": "https://www.bancofalabella.pe/creditos/prestamo-efectivo",
+        "cumple": 32,
+        "parciales": 1,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 83.33,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 5,
+        "url": "https://www.agrobanco.com.pe/red-de-agencias",
+        "cumple": 31,
+        "parciales": 3,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 83.33,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 4,
+        "url": "https://www.agrobanco.com.pe/seguro-desgravamen",
+        "cumple": 31,
+        "parciales": 3,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 83.33,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 3,
+        "url": "https://www.agrobanco.com.pe/credito-agricola",
+        "cumple": 31,
+        "parciales": 3,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 83.33,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 2,
+        "url": "https://www.agrobanco.com.pe/credito-pecuario",
+        "cumple": 31,
+        "parciales": 3,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 83.33,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 1,
+        "url": "https://www.agrobanco.com.pe/inicio",
+        "cumple": 31,
+        "parciales": 3,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 83.33,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 18,
+        "url": "https://www.viabcp.com/creditos/credito-efectivo/prestamo-personal-bcp?rfid=header:productos:prestamo-personal:prestamos",
+        "cumple": 33,
+        "parciales": 2,
+        "no_cumple": 6,
+        "total_evaluados": 41,
+        "porcentaje": 82.93,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 104,
+        "url": "https://www.mibanco.com.pe/categoria/seguro-de-vida-proteccion-financiera",
+        "cumple": 31,
+        "parciales": 4,
+        "no_cumple": 5,
+        "total_evaluados": 40,
+        "porcentaje": 82.5,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 25,
+        "url": "https://www.bn.com.pe/clientes/transferencias/interbancaria-cuenta-ahorros.asp",
+        "cumple": 30,
+        "parciales": 1,
+        "no_cumple": 6,
+        "total_evaluados": 37,
+        "porcentaje": 82.43,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 24,
+        "url": "https://www.bn.com.pe/clientes/seguros/proteccion-tarjeta.asp",
+        "cumple": 30,
+        "parciales": 1,
+        "no_cumple": 6,
+        "total_evaluados": 37,
+        "porcentaje": 82.43,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 106,
+        "url": "https://www.santanderconsumer.com.pe/",
+        "cumple": 32,
+        "parciales": 0,
+        "no_cumple": 7,
+        "total_evaluados": 39,
+        "porcentaje": 82.05,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 93,
+        "url": "https://www.icbc.com.pe/es/column/967004229107552257.html",
+        "cumple": 32,
+        "parciales": 0,
+        "no_cumple": 7,
+        "total_evaluados": 39,
+        "porcentaje": 82.05,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 78,
+        "url": "https://desarrolloempresarial.cofide.com.pe/",
+        "cumple": 31,
+        "parciales": 2,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 82.05,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 73,
+        "url": "https://www.citibank.com/icg/sa/latam/peru/financing/loans.html",
+        "cumple": 32,
+        "parciales": 0,
+        "no_cumple": 7,
+        "total_evaluados": 39,
+        "porcentaje": 82.05,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 67,
+        "url": "https://www.bancobci.pe/documento/tarifario",
+        "cumple": 31,
+        "parciales": 2,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 82.05,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 53,
+        "url": "https://www.santander.com.pe/financiamientos/factura-negociable.html",
+        "cumple": 31,
+        "parciales": 2,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 82.05,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 42,
+        "url": "https://www.pichincha.pe/personas/cuenta/ahorro-preferente",
+        "cumple": 30,
+        "parciales": 4,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 82.05,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 40,
+        "url": "https://www.banbif.com.pe/personas/servicios/transferencias/interbancarias-inmediatas",
+        "cumple": 32,
+        "parciales": 0,
+        "no_cumple": 7,
+        "total_evaluados": 39,
+        "porcentaje": 82.05,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 27,
+        "url": "https://www.bancofalabella.pe/cuentas/cuenta-ahorro-clasico",
+        "cumple": 32,
+        "parciales": 0,
+        "no_cumple": 7,
+        "total_evaluados": 39,
+        "porcentaje": 82.05,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 87,
+        "url": "https://www.mivivienda.com.pe/PortalWEB/usuario-busca-viviendas/usuario-en-busca-de-vivienda.aspx",
+        "cumple": 30,
+        "parciales": 2,
+        "no_cumple": 6,
+        "total_evaluados": 38,
+        "porcentaje": 81.58,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 84,
+        "url": "https://www.compartamos.com.pe/Peru/Seguros",
+        "cumple": 32,
+        "parciales": 1,
+        "no_cumple": 7,
+        "total_evaluados": 40,
+        "porcentaje": 81.25,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 82,
+        "url": "https://www.compartamos.com.pe/Peru/Ahorro",
+        "cumple": 31,
+        "parciales": 3,
+        "no_cumple": 6,
+        "total_evaluados": 40,
+        "porcentaje": 81.25,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 95,
+        "url": "https://www.icbc.com.pe/es/column/967003841662910465.html",
+        "cumple": 31,
+        "parciales": 1,
+        "no_cumple": 7,
+        "total_evaluados": 39,
+        "porcentaje": 80.77,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 51,
+        "url": "https://www.santander.com.pe/",
+        "cumple": 29,
+        "parciales": 5,
+        "no_cumple": 5,
+        "total_evaluados": 39,
+        "porcentaje": 80.77,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 17,
+        "url": "https://www.viabcp.com/ayuda-bcp/cuenta-de-ahorros",
+        "cumple": 32,
+        "parciales": 2,
+        "no_cumple": 7,
+        "total_evaluados": 41,
+        "porcentaje": 80.49,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 16,
+        "url": "https://www.viabcp.com/",
+        "cumple": 33,
+        "parciales": 0,
+        "no_cumple": 8,
+        "total_evaluados": 41,
+        "porcentaje": 80.49,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 89,
+        "url": "https://www.mivivienda.com.pe/PortalWEB/promotores-constructores/promotores-constructores.aspx",
+        "cumple": 29,
+        "parciales": 3,
+        "no_cumple": 6,
+        "total_evaluados": 38,
+        "porcentaje": 80.26,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 88,
+        "url": "https://www.mivivienda.com.pe/PortalWEB/entidades-financieras/entidades-financieras.aspx",
+        "cumple": 29,
+        "parciales": 3,
+        "no_cumple": 6,
+        "total_evaluados": 38,
+        "porcentaje": 80.26,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 60,
+        "url": "https://www.bankofchina.com/pe/es/cbservice/cbo/202005/t20200525_17895330.html?keywords=transferencias",
+        "cumple": 29,
+        "parciales": 3,
+        "no_cumple": 6,
+        "total_evaluados": 38,
+        "porcentaje": 80.26,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 59,
+        "url": "https://www.bankofchina.com/pe/es/aboutus/ab4/202303/t20230309_22690442.html?keywords=seguros",
+        "cumple": 29,
+        "parciales": 3,
+        "no_cumple": 6,
+        "total_evaluados": 38,
+        "porcentaje": 80.26,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 58,
+        "url": "https://www.bankofchina.com/pe/es/cbservice/cb2/202001/t20200115_17407229.html?keywords=pr%C3%A9stamos",
+        "cumple": 29,
+        "parciales": 3,
+        "no_cumple": 6,
+        "total_evaluados": 38,
+        "porcentaje": 80.26,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 57,
+        "url": "https://www.bankofchina.com/pe/es/cbservice/cb1/202001/t20200115_17407225.html?keywords=ahorros",
+        "cumple": 29,
+        "parciales": 3,
+        "no_cumple": 6,
+        "total_evaluados": 38,
+        "porcentaje": 80.26,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 107,
+        "url": "https://www.santanderconsumer.com.pe/personas/ahorros",
+        "cumple": 31,
+        "parciales": 2,
+        "no_cumple": 7,
+        "total_evaluados": 40,
+        "porcentaje": 80.0,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 103,
+        "url": "https://www.mibanco.com.pe/categoria/consumo-personal",
+        "cumple": 30,
+        "parciales": 4,
+        "no_cumple": 6,
+        "total_evaluados": 40,
+        "porcentaje": 80.0,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 94,
+        "url": "https://www.icbc.com.pe/es/column/967005510979129345.html",
+        "cumple": 31,
+        "parciales": 0,
+        "no_cumple": 8,
+        "total_evaluados": 39,
+        "porcentaje": 79.49,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 80,
+        "url": "https://documentos.cofide.com.pe/",
+        "cumple": 30,
+        "parciales": 2,
+        "no_cumple": 7,
+        "total_evaluados": 39,
+        "porcentaje": 79.49,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 69,
+        "url": "https://www.bancobci.pe/soluciones/cash-management",
+        "cumple": 30,
+        "parciales": 2,
+        "no_cumple": 7,
+        "total_evaluados": 39,
+        "porcentaje": 79.49,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 68,
+        "url": "https://www.bancobci.pe/soluciones/financiamiento",
+        "cumple": 30,
+        "parciales": 2,
+        "no_cumple": 7,
+        "total_evaluados": 39,
+        "porcentaje": 79.49,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 41,
+        "url": "https://www.pichincha.pe/",
+        "cumple": 29,
+        "parciales": 4,
+        "no_cumple": 6,
+        "total_evaluados": 39,
+        "porcentaje": 79.49,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 31,
+        "url": "https://www.bancognb.com.pe/",
+        "cumple": 31,
+        "parciales": 3,
+        "no_cumple": 7,
+        "total_evaluados": 41,
+        "porcentaje": 79.27,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 20,
+        "url": "https://www.viabcp.com/otros-servicios/envios-nacionales/transferencias-interbancarias-inmediatas",
+        "cumple": 31,
+        "parciales": 3,
+        "no_cumple": 7,
+        "total_evaluados": 41,
+        "porcentaje": 79.27,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 19,
+        "url": "https://www.viabcp.com/seguros",
+        "cumple": 32,
+        "parciales": 1,
+        "no_cumple": 8,
+        "total_evaluados": 41,
+        "porcentaje": 79.27,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 90,
+        "url": "https://www.mivivienda.com.pe/PortalWEB/inversionistas/inversionistas.aspx",
+        "cumple": 29,
+        "parciales": 2,
+        "no_cumple": 7,
+        "total_evaluados": 38,
+        "porcentaje": 78.95,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 33,
+        "url": "https://www.bancognb.com.pe/inicio/banca-personas/prestamos",
+        "cumple": 30,
+        "parciales": 3,
+        "no_cumple": 7,
+        "total_evaluados": 40,
+        "porcentaje": 78.75,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 91,
+        "url": "https://www.icbc.com.pe/",
+        "cumple": 29,
+        "parciales": 3,
+        "no_cumple": 7,
+        "total_evaluados": 39,
+        "porcentaje": 78.21,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 86,
+        "url": "https://www.mivivienda.com.pe/PortalWEB/",
+        "cumple": 28,
+        "parciales": 3,
+        "no_cumple": 7,
+        "total_evaluados": 38,
+        "porcentaje": 77.63,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 110,
+        "url": "https://www.santanderconsumer.com.pe/personas/servicios/transferencias-inmediatas",
+        "cumple": 30,
+        "parciales": 2,
+        "no_cumple": 8,
+        "total_evaluados": 40,
+        "porcentaje": 77.5,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 109,
+        "url": "https://www.santanderconsumer.com.pe/personas/seguro",
+        "cumple": 30,
+        "parciales": 2,
+        "no_cumple": 8,
+        "total_evaluados": 40,
+        "porcentaje": 77.5,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 108,
+        "url": "https://www.santanderconsumer.com.pe/personas/prestamos",
+        "cumple": 30,
+        "parciales": 2,
+        "no_cumple": 8,
+        "total_evaluados": 40,
+        "porcentaje": 77.5,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 48,
+        "url": "https://www.bancoripley.com.pe/prestamos.html",
+        "cumple": 29,
+        "parciales": 4,
+        "no_cumple": 7,
+        "total_evaluados": 40,
+        "porcentaje": 77.5,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 79,
+        "url": "https://lineasnegocio.cofide.com.pe/",
+        "cumple": 28,
+        "parciales": 4,
+        "no_cumple": 7,
+        "total_evaluados": 39,
+        "porcentaje": 76.92,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 70,
+        "url": "https://www.bancobci.pe/soluciones/comercio-exterior",
+        "cumple": 29,
+        "parciales": 2,
+        "no_cumple": 8,
+        "total_evaluados": 39,
+        "porcentaje": 76.92,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 66,
+        "url": "https://www.bancobci.pe/",
+        "cumple": 28,
+        "parciales": 4,
+        "no_cumple": 7,
+        "total_evaluados": 39,
+        "porcentaje": 76.92,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 77,
+        "url": "https://inclusionfinanciera.cofide.com.pe/",
+        "cumple": 29,
+        "parciales": 3,
+        "no_cumple": 8,
+        "total_evaluados": 40,
+        "porcentaje": 76.25,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 76,
+        "url": "https://www.cofide.com.pe/",
+        "cumple": 29,
+        "parciales": 3,
+        "no_cumple": 8,
+        "total_evaluados": 40,
+        "porcentaje": 76.25,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 38,
+        "url": "https://www.banbif.com.pe/Personas/Prestamos-Personales",
+        "cumple": 30,
+        "parciales": 2,
+        "no_cumple": 9,
+        "total_evaluados": 41,
+        "porcentaje": 75.61,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 50,
+        "url": "https://www.bancoripley.com.pe/codigo-interbancario.html",
+        "cumple": 29,
+        "parciales": 2,
+        "no_cumple": 9,
+        "total_evaluados": 40,
+        "porcentaje": 75.0,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 37,
+        "url": "https://www.banbif.com.pe/Personas/Cuenta-de-Ahorro",
+        "cumple": 29,
+        "parciales": 3,
+        "no_cumple": 9,
+        "total_evaluados": 41,
+        "porcentaje": 74.39,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 10,
+        "url": "https://www.alfinbanco.pe/servicios/transferencias-inmediatas",
+        "cumple": 28,
+        "parciales": 4,
+        "no_cumple": 9,
+        "total_evaluados": 41,
+        "porcentaje": 73.17,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 47,
+        "url": "https://www.bancoripley.com.pe/ahorros/deposito-plazo-fijo.html",
+        "cumple": 28,
+        "parciales": 2,
+        "no_cumple": 10,
+        "total_evaluados": 40,
+        "porcentaje": 72.5,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 46,
+        "url": "https://www.bancoripley.com.pe/",
+        "cumple": 27,
+        "parciales": 3,
+        "no_cumple": 10,
+        "total_evaluados": 40,
+        "porcentaje": 71.25,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 56,
+        "url": "https://www.bankofchina.com/pe/es/index.html",
+        "cumple": 25,
+        "parciales": 4,
+        "no_cumple": 9,
+        "total_evaluados": 38,
+        "porcentaje": 71.05,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 39,
+        "url": "https://www.banbif.com.pe/Personas/Fondos-Mutuos-y-Seguros/Seguros",
+        "cumple": 28,
+        "parciales": 2,
+        "no_cumple": 11,
+        "total_evaluados": 41,
+        "porcentaje": 70.73,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 9,
+        "url": "https://www.alfinbanco.pe/soluciones/proteccion",
+        "cumple": 28,
+        "parciales": 2,
+        "no_cumple": 11,
+        "total_evaluados": 41,
+        "porcentaje": 70.73,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 8,
+        "url": "https://www.alfinbanco.pe/soluciones/creditos",
+        "cumple": 28,
+        "parciales": 2,
+        "no_cumple": 11,
+        "total_evaluados": 41,
+        "porcentaje": 70.73,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 7,
+        "url": "https://www.alfinbanco.pe/soluciones/ahorros",
+        "cumple": 28,
+        "parciales": 2,
+        "no_cumple": 11,
+        "total_evaluados": 41,
+        "porcentaje": 70.73,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 6,
+        "url": "https://www.alfinbanco.pe/",
+        "cumple": 28,
+        "parciales": 2,
+        "no_cumple": 11,
+        "total_evaluados": 41,
+        "porcentaje": 70.73,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 81,
+        "url": "https://www.compartamos.com.pe/Peru",
+        "cumple": 28,
+        "parciales": 3,
+        "no_cumple": 11,
+        "total_evaluados": 42,
+        "porcentaje": 70.24,
+        "nivel": "alto"
+      },
+      {
+        "audit_id": 49,
+        "url": "https://www.bancoripley.com.pe/seguros/index.html",
+        "cumple": 27,
+        "parciales": 2,
+        "no_cumple": 11,
+        "total_evaluados": 40,
+        "porcentaje": 70.0,
+        "nivel": "alto"
+      }
+    ]
+  },
+  "niveles_por_wcag": {
+    "average_across_levels": 82.63,
+    "by_wcag_level": {
+      "A": {
+        "total_audits_evaluated": 115,
+        "average_accessibility_percentage": 83.79,
+        "distribution": {
+          "alto": {
+            "count": 106,
+            "percentage": 92.17
+          },
+          "moderado": {
+            "count": 9,
+            "percentage": 7.83
+          },
+          "deficiente": {
+            "count": 0,
+            "percentage": 0.0
+          },
+          "muy_deficiente": {
+            "count": 0,
+            "percentage": 0.0
+          }
+        },
+        "summary": {
+          "alto": 106,
+          "moderado": 9,
+          "deficiente": 0,
+          "muy_deficiente": 0
+        }
+      },
+      "AA": {
+        "total_audits_evaluated": 115,
+        "average_accessibility_percentage": 86.87,
+        "distribution": {
+          "alto": {
+            "count": 115,
+            "percentage": 100.0
+          },
+          "moderado": {
+            "count": 0,
+            "percentage": 0.0
+          },
+          "deficiente": {
+            "count": 0,
+            "percentage": 0.0
+          },
+          "muy_deficiente": {
+            "count": 0,
+            "percentage": 0.0
+          }
+        },
+        "summary": {
+          "alto": 115,
+          "moderado": 0,
+          "deficiente": 0,
+          "muy_deficiente": 0
+        }
+      },
+      "AAA": {
+        "total_audits_evaluated": 115,
+        "average_accessibility_percentage": 77.24,
+        "distribution": {
+          "alto": {
+            "count": 87,
+            "percentage": 75.65
+          },
+          "moderado": {
+            "count": 28,
+            "percentage": 24.35
+          },
+          "deficiente": {
+            "count": 0,
+            "percentage": 0.0
+          },
+          "muy_deficiente": {
+            "count": 0,
+            "percentage": 0.0
+          }
+        },
+        "summary": {
+          "alto": 87,
+          "moderado": 28,
+          "deficiente": 0,
+          "muy_deficiente": 0
+        }
+      }
+    }
+  }
+}
