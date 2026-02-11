@@ -11,6 +11,8 @@ openpyxl
 webcolors
 matplotlib
 python-dotenv
+cryptography
+gunicorn
 
 # Type checking support
 django-stubs
