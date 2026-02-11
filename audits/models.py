@@ -1,5 +1,6 @@
 # audits/models.py
 from django.db import models
+from django.contrib.auth.models import User
 
 class WebsiteAudit(models.Model):
     url = models.URLField()
@@ -8,6 +9,15 @@ class WebsiteAudit(models.Model):
     elapsed_ms = models.IntegerField(null=True, blank=True)
     page_title = models.CharField(max_length=512, null=True, blank=True)
     score = models.FloatField(null=True, blank=True)
+    
+    # Usuario que creó la auditoría
+    user = models.ForeignKey(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='audits'
+    )
 
     # Conservamos el JSON completo por compatibilidad / dif fácil
     results = models.JSONField(default=dict, blank=True)

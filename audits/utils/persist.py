@@ -237,6 +237,7 @@ def persist_audit_with_results(
     raw: Optional[bool] = None,
     ai: Optional[bool] = None,
     mode_effective: Optional[str] = None,
+    user = None,  # Usuario que crea la auditoría
 ) -> WebsiteAudit:
     # Normaliza flags (sin None)
     mode_eff = (mode_effective or str((response_meta or {}).get("mode_effective") or "")).upper()
@@ -260,6 +261,7 @@ def persist_audit_with_results(
         "rendered": rendered_flag,
         "ai": ai_flag,
         "mode_effective": (mode_eff or None),
+        "user": user,  # Asignar usuario
     }
     parent_kwargs = {k: v for k, v in parent_kwargs.items() if k in ALLOWED_PARENT}
 

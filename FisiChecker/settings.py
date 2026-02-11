@@ -60,21 +60,68 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'FisiChecker.urls'
 
-CORS_URLS_REGEX = r"^/api/.*$"
+# CORS Configuration - Simplificada para desarrollo
+CORS_ALLOW_ALL_ORIGINS = True  # Solo para desarrollo local
+CORS_ALLOW_CREDENTIALS = True
 
-# CORS Configuration
-CORS_ALLOWED_ORIGINS_ENV = os.getenv('CORS_ALLOWED_ORIGINS', '')
-if CORS_ALLOWED_ORIGINS_ENV:
-    CORS_ALLOWED_ORIGINS = CORS_ALLOWED_ORIGINS_ENV.split(',')
-else:
-    CORS_ALLOWED_ORIGINS = [
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ]
+# Métodos HTTP permitidos
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
 
-CORS_ALLOW_CREDENTIALS = os.getenv('CORS_ALLOW_CREDENTIALS', 'True') == 'True'
+# Headers permitidos en las peticiones
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]
+
+# Headers expuestos al cliente
+CORS_EXPOSE_HEADERS = [
+    'content-type',
+    'x-csrftoken',
+]
+
+# REST Framework Configuration
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',  # Por defecto, pero se puede sobrescribir por vista
+    ],
+}
+
+# CSRF Configuration
+# Permitir CSRF desde estos orígenes (necesario para requests con credentials)
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "https://158.69.62.72",
+]
+
+# Cookie settings for cross-origin requests
+SESSION_COOKIE_SAMESITE = 'None' if not DEBUG else 'Lax'
+CSRF_COOKIE_SAMESITE = 'None' if not DEBUG else 'Lax'
+SESSION_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False  # Permite que JavaScript acceda al token CSRF
+SESSION_COOKIE_SECURE = False  # False en desarrollo (HTTP), True en producción (HTTPS)
+CSRF_COOKIE_SECURE = False
+# Permitir cookies cross-domain en desarrollo
+SESSION_COOKIE_DOMAIN = None  # Permite localhost y 127.0.0.1
 
 TEMPLATES = [
     {
