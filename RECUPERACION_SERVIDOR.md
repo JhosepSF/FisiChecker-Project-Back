@@ -15,6 +15,7 @@ git reset --hard
 git pull
 npm install
 npm audit fix --force
+rm -rf /var/www/front/dist
 npm run build
 ```
 
