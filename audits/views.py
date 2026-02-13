@@ -10,6 +10,7 @@ from django.db.utils import OperationalError
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt, ensure_csrf_cookie
 
 from rest_framework.views import APIView
@@ -66,7 +67,7 @@ def _results_accessor_name() -> Optional[str]:
             return rel.get_accessor_name()
     return None
 
-@csrf_exempt
+@method_decorator(csrf_exempt, name='dispatch')
 class AuditView(APIView):
     permission_classes = [AllowAny]
     authentication_classes = [SessionAuthentication]

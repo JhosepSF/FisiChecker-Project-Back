@@ -62,16 +62,17 @@ sudo systemctl restart nginx
 ## 6. Iniciar Gunicorn
 
 ```
+source /var/www/fisichecker/venv/bin/activate
+pkill gunicorn
 gunicorn FisiChecker.wsgi:application --bind unix:/var/www/fisichecker/gunicorn.sock --env DJANGO_SETTINGS_MODULE=FisiChecker.settings --daemon
-```
-
-## 7. Ajustar permisos del socket
-
-```
 sudo chown www-data:www-data /var/www/fisichecker/gunicorn.sock
+
+sudo systemctl daemon-reload
+sudo systemctl restart gunicorn
+sudo systemctl status gunicorn
 ```
 
-## 8. Verificar funcionamiento
+## 7. Verificar funcionamiento
 
 - Prueba el frontend en el navegador.
 - Prueba el backend con curl:
@@ -79,7 +80,7 @@ sudo chown www-data:www-data /var/www/fisichecker/gunicorn.sock
 curl -k -X POST https://158.69.62.72/api/auth/login -H "Content-Type: application/json" -d '{"username":"nik","password":"NN123456"}'
 ```
 
-## 9. Revisar logs en caso de error
+## 8. Revisar logs en caso de error
 
 - Nginx:
 ```
