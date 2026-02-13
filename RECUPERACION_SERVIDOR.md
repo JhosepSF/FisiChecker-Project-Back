@@ -11,8 +11,10 @@ ssh ubuntu@158.69.62.72
 
 ```
 cd /var/www/front
+git reset --hard
 git pull
 npm install
+npm audit fix --force
 npm run build
 ```
 
@@ -20,6 +22,7 @@ npm run build
 
 ```
 cd /var/www/fisichecker
+git reset --hard
 git pull
 ```
 
