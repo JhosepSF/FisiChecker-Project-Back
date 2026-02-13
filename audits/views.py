@@ -67,7 +67,6 @@ def _results_accessor_name() -> Optional[str]:
             return rel.get_accessor_name()
     return None
 
-@method_decorator(csrf_exempt, name='dispatch')
 class AuditView(APIView):
     permission_classes = [AllowAny]
     authentication_classes = [SessionAuthentication]
