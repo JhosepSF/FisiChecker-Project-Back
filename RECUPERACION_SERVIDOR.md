@@ -17,6 +17,7 @@ npm install
 npm audit fix --force
 rm -rf /var/www/front/dist
 npm run build
+sudo systemctl restart nginx
 ```
 
 ## 3. Actualizar el backend
