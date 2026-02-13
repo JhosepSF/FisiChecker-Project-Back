@@ -105,13 +105,7 @@ REST_FRAMEWORK = {
 
 # CSRF Configuration
 # Permitir CSRF desde estos orígenes (necesario para requests con credentials)
-CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "https://158.69.62.72",
-]
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', 'https://158.69.62.72').split(',')
 
 # Cookie settings for cross-origin requests
 SESSION_COOKIE_SAMESITE = 'None' if not DEBUG else 'Lax'

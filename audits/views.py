@@ -66,6 +66,7 @@ def _results_accessor_name() -> Optional[str]:
             return rel.get_accessor_name()
     return None
 
+@csrf_exempt
 class AuditView(APIView):
     permission_classes = [AllowAny]
     authentication_classes = [SessionAuthentication]
