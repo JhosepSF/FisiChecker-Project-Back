@@ -191,39 +191,31 @@ class AuditStatistics:
         return results
 
     @staticmethod
-    def get_url_ranking(limit: int = 10) -> List[Dict[str, Any]]:
+    def get_url_ranking(limit: int = 10) -> Dict[str, List[Dict[str, Any]]]:
         """
         Obtiene el ranking de URLs mejor y peor puntuadas.
+        Retorna un dict con: best_urls y worst_urls.
         """
-        # Mejores URLs (score más alto)
-        best_urls = WebsiteAudit.objects.filter(
-            score__isnull=False
-        ).order_by('-score').values('url', 'score', 'page_title', 'fetched_at')[:limit]
+        base_qs = WebsiteAudit.objects.filter(score__isnull=False).values(
+            "url", "score", "page_title", "fetched_at"
+        )
 
-        # Peores URLs (score más bajo)
-        worst_urls = WebsiteAudit.objects.filter(
-            score__isnull=False
-        ).order_by('score').values('url', 'score', 'page_title', 'fetched_at')[:limit]
+        best_urls = base_qs.order_by("-score")[:limit]
+        worst_urls = base_qs.order_by("score")[:limit]
+
+        def serialize(item: Dict[str, Any]) -> Dict[str, Any]:
+            score = item.get("score")
+            fetched_at = item.get("fetched_at")
+            return {
+                "url": item.get("url"),
+                "score": round(float(score), 2) if score is not None else None,
+                "page_title": item.get("page_title"),
+                "audited_at": fetched_at.isoformat() if fetched_at else None,
+            }
 
         return {
-            "best_urls": [
-                {
-                    "url": item['url'],
-                    "score": round(item['score'], 2),
-                    "page_title": item['page_title'],
-                    "audited_at": item['fetched_at'].isoformat() if item['fetched_at'] else None
-                }
-                for item in best_urls
-            ],
-            "worst_urls": [
-                {
-                    "url": item['url'],
-                    "score": round(item['score'], 2),
-                    "page_title": item['page_title'],
-                    "audited_at": item['fetched_at'].isoformat() if item['fetched_at'] else None
-                }
-                for item in worst_urls
-            ]
+            "best_urls": [serialize(item) for item in best_urls],
+            "worst_urls": [serialize(item) for item in worst_urls],
         }
 
     @staticmethod

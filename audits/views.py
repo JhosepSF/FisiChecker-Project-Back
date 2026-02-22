@@ -324,8 +324,6 @@ class StatisticsAccessibilityByWCAGView(APIView):
 # ============================================
 # Vistas de Autenticación
 # ============================================
-
-
 @api_view(['POST'])
 @permission_classes([AllowAny])
 @csrf_exempt
