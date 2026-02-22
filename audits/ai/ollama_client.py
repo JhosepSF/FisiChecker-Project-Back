@@ -59,6 +59,8 @@ def ollama_chat(
         content = msg.get("content") if isinstance(msg, dict) else ""
         return (content or "").strip()
     except Exception as e:
+        import traceback
+        logger.error("Ollama chat error: %s\n%s", str(e), traceback.format_exc())
         raise OllamaClientError(f"Ollama chat error: {e}")
 
 
@@ -117,6 +119,8 @@ def ollama_generate(
         content = data.get("response") if isinstance(data, dict) else ""
         return (content or "").strip()
     except requests.exceptions.HTTPError as he:
+        import traceback
+        logger.error("Ollama generate HTTP error: %s\n%s", str(he), traceback.format_exc())
         if he.response is not None and he.response.status_code == 404:
             messages2: List[Dict[str, str]] = []
             if system:
@@ -135,6 +139,8 @@ def ollama_generate(
             )
         raise OllamaClientError(f"Ollama generate HTTP error: {he}") from he
     except Exception as e:
+        import traceback
+        logger.error("Ollama generate error: %s\n%s", str(e), traceback.format_exc())
         raise OllamaClientError(f"Ollama generate error: {e}")
 
 
@@ -269,7 +275,8 @@ def ask_json(
                 # Asegurar dict
                 return _coerce_to_dict(obj)
         except Exception as e:
-            # fallo de red / ollama
+            import traceback
+            logger.error("ask_json error: %s\n%s", str(e), traceback.format_exc())
             last_text = f"LLM error: {e}"
 
         # Reintento: reforzar instrucción
