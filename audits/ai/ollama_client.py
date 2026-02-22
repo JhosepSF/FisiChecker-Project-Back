@@ -2,23 +2,31 @@
 import os
 import json
 import re
+import time
+import logging
 import requests
 from typing import Optional, Dict, Any, List, Union, Tuple
 from django.conf import settings
-import logging
 
-logger = logging.getLogger('audits.ai')
+logger = logging.getLogger("audits.ai")
 
 # === Config basado en settings o entorno ===
 OLLAMA_HOST = getattr(settings, "OLLAMA_HOST", os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434"))
 DEFAULT_MODEL = getattr(settings, "OLLAMA_MODEL", os.environ.get("OLLAMA_MODEL", "llama3.1:latest"))
+
+# Reutiliza conexiones HTTP (más estable y rápido)
+_SESSION = requests.Session()
 
 
 class OllamaClientError(Exception):
     pass
 
 
-def _build_options(temperature: float, max_tokens: int, options: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+def _build_options(
+    temperature: float,
+    max_tokens: int,
+    options: Optional[Dict[str, Any]] = None
+) -> Dict[str, Any]:
     """Construye el objeto 'options' seguro para Ollama."""
     opts: Dict[str, Any] = {
         "temperature": float(temperature),
@@ -27,6 +35,24 @@ def _build_options(temperature: float, max_tokens: int, options: Optional[Dict[s
     if isinstance(options, dict):
         opts.update(options)
     return opts
+
+
+def _safe_preview(text: str, limit: int = 2000) -> str:
+    """Recorta texto para logs (evita logs gigantes)."""
+    if not text:
+        return ""
+    text = str(text)
+    return text if len(text) <= limit else text[:limit] + "…(trunc)"
+
+
+def _post_json(url: str, payload: Dict[str, Any], timeout: int) -> requests.Response:
+    """
+    POST con timeout separado (connect, read) y logs útiles.
+    - connect timeout corto para no quedarse colgado si el host no responde
+    - read timeout configurable (timeout)
+    """
+    # 5s para conectar, `timeout` para leer respuesta
+    return _SESSION.post(url, json=payload, timeout=(5, timeout))
 
 
 def ollama_chat(
@@ -51,16 +77,39 @@ def ollama_chat(
     }
 
     try:
-        r = requests.post(url, json=payload, timeout=timeout)
+        r = _post_json(url, payload, timeout=timeout)
+
+        # Si no vino JSON, loguea rápido el body para diagnóstico
+        ct = r.headers.get("Content-Type", "")
+        if "application/json" not in ct.lower():
+            logger.error(
+                "Ollama chat non-JSON response status=%s content-type=%s body=%s",
+                r.status_code, ct, _safe_preview(r.text)
+            )
+
         r.raise_for_status()
-        data = r.json()
+
+        try:
+            data = r.json()
+        except Exception:
+            logger.exception("Ollama chat: failed to decode JSON. body=%s", _safe_preview(r.text))
+            raise OllamaClientError("Ollama chat: response is not valid JSON")
+
         msg = data.get("message", {}) if isinstance(data, dict) else {}
         content = msg.get("content") if isinstance(msg, dict) else ""
         return (content or "").strip()
-    except Exception as e:
-        import traceback
-        logger.error("Ollama chat error: %s\n%s", str(e), traceback.format_exc())
-        raise OllamaClientError(f"Ollama chat error: {e}")
+
+    except requests.exceptions.RequestException:
+        # Aquí entran timeout, connection error, http error, etc.
+        status = getattr(locals().get("r", None), "status_code", None)
+        body = getattr(locals().get("r", None), "text", "")
+        logger.exception("Ollama chat request failed status=%s body=%s", status, _safe_preview(body))
+        raise OllamaClientError(f"Ollama chat request failed (status={status})")
+    except OllamaClientError:
+        raise
+    except Exception:
+        logger.exception("Ollama chat unexpected error")
+        raise OllamaClientError("Ollama chat unexpected error")
 
 
 def ollama_generate(
@@ -95,9 +144,10 @@ def ollama_generate(
         payload["prompt"] = f"SISTEMA:\n{system.strip()}\n\nUSUARIO:\n{payload['prompt']}"
 
     try:
-        r = requests.post(url, json=payload, timeout=timeout)
+        r = _post_json(url, payload, timeout=timeout)
+
+        # Si generate no existe -> fallback a chat
         if r.status_code == 404:
-            # fallback limpio a chat
             messages: List[Dict[str, str]] = []
             if system:
                 messages.append({"role": "system", "content": system})
@@ -113,34 +163,35 @@ def ollama_generate(
                 options=options,
                 timeout=timeout,
             )
+
+        ct = r.headers.get("Content-Type", "")
+        if "application/json" not in ct.lower():
+            logger.error(
+                "Ollama generate non-JSON response status=%s content-type=%s body=%s",
+                r.status_code, ct, _safe_preview(r.text)
+            )
+
         r.raise_for_status()
-        data = r.json()
+
+        try:
+            data = r.json()
+        except Exception:
+            logger.exception("Ollama generate: failed to decode JSON. body=%s", _safe_preview(r.text))
+            raise OllamaClientError("Ollama generate: response is not valid JSON")
+
         content = data.get("response") if isinstance(data, dict) else ""
         return (content or "").strip()
-    except requests.exceptions.HTTPError as he:
-        import traceback
-        logger.error("Ollama generate HTTP error: %s\n%s", str(he), traceback.format_exc())
-        if he.response is not None and he.response.status_code == 404:
-            messages2: List[Dict[str, str]] = []
-            if system:
-                messages2.append({"role": "system", "content": system})
-            u_prompt = base_prompt
-            if json_mode:
-                u_prompt += "\n\nResponde SOLO en JSON válido."
-            messages2.append({"role": "user", "content": u_prompt})
-            return ollama_chat(
-                messages=messages2,
-                model=model or DEFAULT_MODEL,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                options=options,
-                timeout=timeout,
-            )
-        raise OllamaClientError(f"Ollama generate HTTP error: {he}") from he
-    except Exception as e:
-        import traceback
-        logger.error("Ollama generate error: %s\n%s", str(e), traceback.format_exc())
-        raise OllamaClientError(f"Ollama generate error: {e}")
+
+    except requests.exceptions.RequestException:
+        status = getattr(locals().get("r", None), "status_code", None)
+        body = getattr(locals().get("r", None), "text", "")
+        logger.exception("Ollama generate request failed status=%s body=%s", status, _safe_preview(body))
+        raise OllamaClientError(f"Ollama generate request failed (status={status})")
+    except OllamaClientError:
+        raise
+    except Exception:
+        logger.exception("Ollama generate unexpected error")
+        raise OllamaClientError("Ollama generate unexpected error")
 
 
 # =========================
@@ -151,17 +202,34 @@ def _strip_code_fences(text: str) -> str:
     """Quita ```...``` o ```json ...``` para facilitar el parseo."""
     if not text:
         return ""
-    # elimina fences de bloque
-    text = re.sub(r"^\s*```(?:json)?\s*", "", text.strip(), flags=re.I)
-    text = re.sub(r"\s*```\s*$", "", text, flags=re.I)
-    return text.strip()
+    s = text.strip()
+    s = re.sub(r"^\s*```(?:json)?\s*", "", s, flags=re.I)
+    s = re.sub(r"\s*```\s*$", "", s, flags=re.I)
+    return s.strip()
+
+
+def _raw_decode_first_json(s: str) -> Tuple[bool, Any, Optional[str]]:
+    """
+    Intenta extraer el primer JSON válido desde el string usando JSONDecoder.raw_decode.
+    Útil cuando el modelo mete texto antes/después.
+    """
+    if not s:
+        return False, None, "empty"
+    dec = json.JSONDecoder()
+    s2 = s.lstrip()
+    try:
+        obj, _idx = dec.raw_decode(s2)
+        return True, obj, None
+    except Exception as e:
+        return False, None, str(e)
 
 
 def _try_json_variants(txt: str) -> Tuple[bool, Union[Dict[str, Any], List[Any], None], Optional[str]]:
     """
     Intenta parsear JSON en varias formas:
       - texto completo
-      - primer objeto {...}
+      - raw_decode (primer JSON válido)
+      - primer objeto {...} (no greedy, lo más corto)
       - primer array [...]
     Devuelve (ok, obj, error_msg)
     """
@@ -177,20 +245,14 @@ def _try_json_variants(txt: str) -> Tuple[bool, Union[Dict[str, Any], List[Any],
     except Exception as e1:
         err1 = str(e1)
 
-    # 2) Extraer primer objeto { ... }
-    try:
-        m = re.search(r"\{.*\}", s, re.S)
-        if m:
-            obj = json.loads(m.group(0))
-            return True, obj, None
-    except Exception as e2:
-        err2 = str(e2)
-    else:
-        err2 = None
+    # 2) Intento raw_decode (primer JSON válido al inicio tras lstrip)
+    ok2, obj2, err2 = _raw_decode_first_json(s)
+    if ok2:
+        return True, obj2, None
 
-    # 3) Extraer primer array [ ... ]
+    # 3) Extraer primer objeto { ... } (no greedy: el más corto posible)
     try:
-        m = re.search(r"\[.*\]", s, re.S)
+        m = re.search(r"\{.*?\}", s, re.S)
         if m:
             obj = json.loads(m.group(0))
             return True, obj, None
@@ -199,8 +261,18 @@ def _try_json_variants(txt: str) -> Tuple[bool, Union[Dict[str, Any], List[Any],
     else:
         err3 = None
 
-    # Join errores informativos
-    joined_errs = "; ".join([e for e in (err1, err2, err3) if e])
+    # 4) Extraer primer array [ ... ] (no greedy)
+    try:
+        m = re.search(r"\[.*?\]", s, re.S)
+        if m:
+            obj = json.loads(m.group(0))
+            return True, obj, None
+    except Exception as e4:
+        err4 = str(e4)
+    else:
+        err4 = None
+
+    joined_errs = "; ".join([e for e in (err1, err2, err3, err4) if e])
     return False, None, joined_errs or "json parse failed"
 
 
@@ -244,10 +316,9 @@ def ask_json(
     max_retries: int = 2,
 ) -> Dict[str, Any]:
     """
-    Pide explícitamente JSON usando /api/chat (y/o generate como alternativa si adaptas).
+    Pide explícitamente JSON usando /api/chat.
     GARANTIZA devolver Dict[str, Any] para que el resto del código pueda usar .get(...) sin romper.
     """
-    # Construimos un mensaje único (chat-like) para robustez.
     user_prompt = prompt
     if context:
         user_prompt += f"\n\nContexto (JSON/Texto):\n{context[:8000]}"
@@ -259,6 +330,8 @@ def ask_json(
     messages.append({"role": "user", "content": user_prompt})
 
     last_text = ""
+    last_err = ""
+
     for attempt in range(max_retries + 1):
         try:
             txt = ollama_chat(
@@ -271,21 +344,32 @@ def ask_json(
             last_text = txt or ""
             ok, obj, err = _try_json_variants(last_text)
             if ok:
-                # Asegurar dict
                 return _coerce_to_dict(obj)
-        except Exception as e:
-            import traceback
-            logger.error("ask_json error: %s\n%s", str(e), traceback.format_exc())
-            last_text = f"LLM error: {e}"
+            last_err = err or "json parse failed"
 
-        # Reintento: reforzar instrucción
+        except OllamaClientError as e:
+            last_text = f"LLM error: {e}"
+            last_err = str(e)
+            logger.exception("ask_json OllamaClientError attempt=%s", attempt)
+
+        except Exception as e:
+            last_text = f"LLM error: {e}"
+            last_err = str(e)
+            logger.exception("ask_json unexpected error attempt=%s", attempt)
+
+        # Reintento: reforzar instrucción + backoff corto
         if attempt < max_retries:
-            messages[-1]["content"] += "\n\nATENCIÓN: Responde SOLO en JSON plano (objeto o arreglo) sin ``` ni explicaciones."
+            messages[-1]["content"] += (
+                "\n\nATENCIÓN: Responde SOLO en JSON plano (objeto o arreglo) sin ``` ni explicaciones."
+                "\nSi fallas, responde únicamente con el JSON sin texto adicional."
+            )
+            time.sleep(0.5 * (2 ** attempt))
             continue
 
     # Fallback si falla todo → SIEMPRE dict
     return {
         "text": last_text,
         "parse_error": True,
+        "error": last_err,
         "message": "No fue posible parsear la respuesta del modelo como JSON válido.",
     }
