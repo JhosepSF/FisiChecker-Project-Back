@@ -8,7 +8,6 @@ from django.conf import settings
 import logging
 
 logger = logging.getLogger('audits.ai')
-logger.error('Mensaje de error o traceback')
 
 # === Config basado en settings o entorno ===
 OLLAMA_HOST = getattr(settings, "OLLAMA_HOST", os.environ.get("OLLAMA_HOST", "http://127.0.0.1:11434"))
