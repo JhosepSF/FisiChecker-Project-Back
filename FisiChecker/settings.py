@@ -233,29 +233,39 @@ if not DEBUG:
     X_FRAME_OPTIONS = 'DENY'
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file_audit_ai': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': BASE_DIR / 'audit_auto_ai_log.txt',
+    "version": 1,
+    "disable_existing_loggers": False,
+
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s [%(name)s] %(message)s"
+        }
+    },
+
+    "handlers": {
+        "file_audit_ai": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": str(BASE_DIR / "audit_auto_ai_log.txt"),
+            "formatter": "verbose",
         },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "verbose",
         },
     },
-    'loggers': {
-        'audits.ai': {
-            'handlers': ['file_audit_ai', 'console'],
-            'level': 'DEBUG',
-            'propagate': True,
+
+    "loggers": {
+        "audits.ai": {
+            "handlers": ["file_audit_ai", "console"],
+            "level": "DEBUG",
+            "propagate": False,
         },
-        'django': {
-            'handlers': ['console'],
-            'level': 'ERROR',
-            'propagate': True,
+        "django": {
+            "handlers": ["console"],
+            "level": "ERROR",
+            "propagate": True,
         },
     },
 }
