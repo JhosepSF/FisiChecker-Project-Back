@@ -13,6 +13,8 @@ matplotlib
 python-dotenv
 cryptography
 gunicorn
+ftfy
+tldextract
 
 # Type checking support
 django-stubs

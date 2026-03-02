@@ -19,7 +19,7 @@ class WebsiteAuditResultSerializer(serializers.ModelSerializer):
         fields = [
             "code", "title", "level", "principle",
             "verdict", "source",
-            "score",           # 👈 AÑADIR
+            "score",          
             "score_hint", "details"
         ]
 

@@ -5,6 +5,8 @@ from typing import Dict, Any, List, Optional
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 from urllib.parse import urlparse
+import ftfy
+import tldextract
 
 @dataclass
 class PageContext:

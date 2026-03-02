@@ -5,9 +5,9 @@ from django.db import transaction, models
 from audits.models import WebsiteAudit, WebsiteAuditResult
 from audits.wcag.constants import WCAG_META
 
-# Score por criterio: 0=fail, 1=partial, 2=pass, NA=0 (pero NA no contará en el score del parent)
-# Score del parent (WebsiteAudit.score): promedio de criterios no-NA en escala 0-2
-# Frontend debe dividir entre 2 y multiplicar por 100 para obtener porcentaje
+# Score por criterio individual: 0=fail, 1=partial, 2=pass, None=NA (guardado para referencia)
+# Score del parent (WebsiteAudit.score): calculado por audit.py en escala 0-1 (0-100%)
+# El score respeta SCORE_INCLUDE_AAA, LEVEL_WEIGHTS y STRICT_COVERAGE_PENALTY configurados en audit.py
 VERDICT_TO_SCORE = {"fail": 0, "partial": 1, "pass": 2, "na": 0}
 
 # Claves que, si todas están presentes y todas son 0, implican N/A automático
@@ -250,13 +250,20 @@ def persist_audit_with_results(
     if not (raw_flag or rendered_flag or ai_flag):
         raw_flag = True
 
+    # Extraer score de response_meta (escala 0-1 calculado por audit.py)
+    score_from_audit = None
+    if isinstance(response_meta, dict) and "score" in response_meta:
+        score_val = response_meta.get("score")
+        if isinstance(score_val, (int, float)) and score_val is not None:
+            score_from_audit = float(score_val)
+    
     parent_kwargs = {
         "url": url,
         "status_code": (response_meta.get("status_code") if isinstance(response_meta, dict) else None),
         "elapsed_ms": (response_meta.get("elapsed_ms") if isinstance(response_meta, dict) else None),
         "page_title": ((response_meta.get("page_title") or "")[:512] if isinstance(response_meta, dict) else ""),
-        # El score del parent se calculará al final (0-100%) excluyendo criterios NA
-        "score": None,
+        # Usar score calculado por audit.py (0-1) que respeta SCORE_INCLUDE_AAA y pesos
+        "score": score_from_audit,
         "raw": raw_flag,
         "rendered": rendered_flag,
         "ai": ai_flag,
@@ -269,11 +276,6 @@ def persist_audit_with_results(
         audit = WebsiteAudit.objects.create(**parent_kwargs)
 
         rows: List[WebsiteAuditResult] = []
-
-        # Acumuladores para score del parent (excluyendo N/A)
-        non_na_sum = 0.0
-        non_na_cnt = 0
-        total_cnt = 0
 
         for code, data in (wcag or {}).items():
             meta = (WCAG_META.get(code) or {})
@@ -305,19 +307,13 @@ def persist_audit_with_results(
             else:
                 src = "raw"
 
-            # Score por fila
+            # Score por fila (guardado para referencia, no para recalcular score del parent)
             score_num = VERDICT_TO_SCORE.get(verdict, 1)
             if verdict == "na":
                 details["na"] = True
                 score_hint_val = None
             else:
                 score_hint_val = _num_or_none(details.get("ok_ratio"))
-
-            # Acumular para el parent (ignora N/A)
-            if verdict != "na":
-                non_na_sum += float(score_num)
-                non_na_cnt += 1
-            total_cnt += 1
 
             row_kwargs = {
                 "audit": audit,
@@ -337,17 +333,7 @@ def persist_audit_with_results(
         if rows:
             WebsiteAuditResult.objects.bulk_create(rows)
 
-        # Recalcular score del parent EXCLUYENDO N/A
-        # Score en escala 0-2 (promedio de criterios evaluables) y penalizado por cobertura
-        if "score" in ALLOWED_PARENT:
-            if non_na_cnt > 0:
-                base_score = non_na_sum / non_na_cnt  # escala 0..2
-                coverage = (non_na_cnt / total_cnt) if total_cnt > 0 else 1.0
-                parent_score = round(base_score * coverage, 4)
-            else:
-                parent_score = None  # todo N/A ⇒ sin score
-            WebsiteAudit.objects.filter(pk=audit.pk).update(score=parent_score)
-            # Refrescar el objeto desde la BD para que tenga el score actualizado
-            audit.refresh_from_db()
-
+        # El score ya fue calculado correctamente por audit.py y asignado al crear el objeto
+        # No se recalcula aquí para respetar configuraciones de SCORE_INCLUDE_AAA y LEVEL_WEIGHTS
+        
         return audit

@@ -1,6 +1,7 @@
 # audits/audit.py
+import logging
 import time
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, List, Optional, Tuple, Union, cast
 
 from django.db import connection
 
@@ -9,6 +10,9 @@ from .utils.html_loader import soup_from_url
 from .utils.rendered_loader import rendered_context_for_url
 from .checks.criteria.base import CheckMode, CriterionOutcome
 from .checks.criteria.registry import get_check, list_available_codes
+from .ai.principle_ai import PrincipleAIAggregator
+
+logger = logging.getLogger("audits.ai")
 
 def _verdict_counts(outcomes):
     c = {"pass": 0, "fail": 0, "partial": 0, "na": 0}
@@ -122,6 +126,10 @@ def _caps_for(code: str) -> Dict[str, Any]:
             return v
     return {}
 
+PerLevelDetails = Dict[str, Union[int, float]]
+PerLevelCounts = Dict[str, Union[PerLevelDetails, float]]
+
+
 def _compute_score(criterion_results: List[CriterionOutcome]) -> Tuple[Optional[float], Dict[str, Any]]:
     """
     Excluye 'na' del denominador. Cuenta sólo pass/fail.
@@ -129,7 +137,7 @@ def _compute_score(criterion_results: List[CriterionOutcome]) -> Tuple[Optional[
     total_weight = 0.0
     total_weight_all = 0.0
     acc = 0.0
-    per_level_counts = {
+    per_level_counts: PerLevelCounts = {
         "A":  {"total": 0, "passed": 0},
         "AA": {"total": 0, "passed": 0},
         "AAA": {"total": 0, "passed": 0},
@@ -140,18 +148,23 @@ def _compute_score(criterion_results: List[CriterionOutcome]) -> Tuple[Optional[
             continue
         w = LEVEL_WEIGHTS.get(lvl, 1.0)
         total_weight_all += w
+        level_bucket = cast(PerLevelDetails, per_level_counts[lvl])
 
         if outcome.verdict == "na":
             # NA cuenta para cobertura, no para score base
-            per_level_counts[lvl]["total"] += 1
+            level_bucket["total"] += 1
             continue
 
         total_weight += w
-        val = 1.0 if outcome.verdict == "pass" else 0.0
+        # Usar score_0_2 del outcome (0=fail, 1=partial, 2=pass) normalizado a 0-1
+        if outcome.score_0_2 is not None:
+            val = float(outcome.score_0_2) / 2.0  # 0→0.0, 1→0.5, 2→1.0
+        else:
+            val = 1.0 if outcome.verdict == "pass" else 0.0  # fallback
         acc += val * w
-        per_level_counts[lvl]["total"] += 1
+        level_bucket["total"] += 1
         if outcome.verdict == "pass":
-            per_level_counts[lvl]["passed"] += 1
+            level_bucket["passed"] += 1
 
     if total_weight == 0:
         return (None, per_level_counts)
@@ -186,7 +199,7 @@ def _wcag_map_from_outcomes(criterion_results: List[CriterionOutcome]) -> Dict[s
             "details": out.details,
             "status": out.verdict,
             "score_0_2": out.score_0_2,
-            "source": out.source  # 👈 AÑADIR source
+            "source": out.source 
         }
     return wcag
 
@@ -200,7 +213,7 @@ def _normalize_outcome_na(out: CriterionOutcome) -> CriterionOutcome:
     # Respeta bandera NA explícita
     if d.get("na") is True:
         out.verdict = "na"
-        out.score_0_2 = 1  # neutro
+        out.score_0_2 = 1  
         return out
 
     # Heurística NA (conocidos):
@@ -251,6 +264,13 @@ def scrape_and_audit(
     except Exception:
         pass
 
+    # Timing total del audit
+    audit_start = time.time()
+    logger.info(
+        "[AUDIT] Iniciando auditoría: mode=%s, use_ai=%s, url=%s",
+        mode, use_ai, url
+    )
+    
     t0 = time.time()
     soup, meta = soup_from_url(url, timeout=20)
     elapsed_ms = int((time.time() - t0) * 1000)
@@ -265,7 +285,9 @@ def scrape_and_audit(
     outcomes: List[CriterionOutcome] = []
     rendered_ctx: Optional[PageContext] = None
     rendered_used_codes: List[str] = []
-    html_for_ai: str = ""
+    ai_aggregator: Optional[PrincipleAIAggregator] = None
+    if mode == CheckMode.AI or use_ai:
+        ai_aggregator = PrincipleAIAggregator(mode=str(mode))
 
     # Si de antemano sabemos que haremos rendered para varios criterios, abrimos una sola vez
     # En modo AUTO con IA, también precargamos rendered para tener contexto completo
@@ -274,7 +296,7 @@ def scrape_and_audit(
     print(f"preload_rendered = {preload_rendered}")
     if preload_rendered:
         try:
-            rendered_ctx, html_for_ai = rendered_context_for_url(url, timeout_ms=60000)
+            rendered_ctx, _ = rendered_context_for_url(url, timeout_ms=60000)
         except Exception as e:
             rendered_ctx = None
             print(f"[WARN] No se pudo cargar rendered context: {e}")
@@ -295,7 +317,7 @@ def scrape_and_audit(
         if _should_try_rendered(mode, code):
             if rendered_ctx is None:
                 try:
-                    rendered_ctx, html_for_ai = rendered_context_for_url(url, timeout_ms=15000)
+                    rendered_ctx, _ = rendered_context_for_url(url, timeout_ms=15000)
                 except Exception:
                     rendered_ctx = None
             if rendered_ctx is not None:
@@ -306,47 +328,34 @@ def scrape_and_audit(
                 except Exception as e:
                     chosen.details["rendered_run_error"] = str(e)
 
-        # 3) IA opcional: solo en criterios donde sea útil (marcados en CRITERIA_CAPS)
+        # 3) IA ahora se orquesta por principio: solo se agregan criterios donde sea útil
         caps = _caps_for(code)
         is_ai_helpful = caps.get("ai_helpful", False)
-        
-        # DEBUG: agregar info a detalles
+
+        chosen.details = dict(chosen.details or {})
         chosen.details["_debug_mode"] = str(mode)
         chosen.details["_debug_use_ai"] = use_ai
         chosen.details["_debug_ai_helpful"] = is_ai_helpful
-        
-        # En modo AI puro, ejecuta IA en todos. Con use_ai=True, solo en los marcados como útiles.
-        should_run_ai = (mode == CheckMode.AI) or (use_ai and is_ai_helpful)
-        chosen.details["_debug_should_run_ai"] = should_run_ai
-        
-        if should_run_ai:
-            try:
-                # La IA debe usar el mejor contexto disponible: rendered si existe, sino raw
-                ai_ctx = rendered_ctx if rendered_ctx is not None else ctx
-                out_ai = fn(
-                    ai_ctx,
-                    mode=CheckMode.AI,
-                    rendered_ctx=rendered_ctx,
-                    html_for_ai=html_for_ai[:20000] if isinstance(html_for_ai, str) else None
-                )
-                if out_ai:
-                    # Reemplaza el outcome para que el source/veredicto/score sean los de IA
-                    chosen = out_ai
-                    chosen.details["_debug_ai_executed"] = True
-                # Si no hay respuesta útil, conservamos el chosen anterior
-            except Exception as e:
-                # Registra el error en details para debugging
-                chosen.details = dict(chosen.details or {})
-                chosen.details["ai_error"] = str(e)
-                chosen.details["_debug_ai_error"] = True
+
+        collect_for_principle = bool(
+            ai_aggregator and ((mode == CheckMode.AI) or (use_ai and is_ai_helpful))
+        )
+        chosen.details["_debug_should_batch_ai"] = collect_for_principle
 
         # 4) Normaliza NA cuando aplique
         chosen = _normalize_outcome_na(chosen)
+        if collect_for_principle and ai_aggregator:
+            logger.debug(
+                "Collecting %s for principle %s (verdict=%s, ai_helpful=%s)",
+                code,
+                chosen.principle or "",
+                chosen.verdict,
+                is_ai_helpful,
+            )
+            ai_aggregator.add_outcome(chosen)
         outcomes.append(chosen)
 
     score_value, per_level = _compute_score(outcomes)
-    wcag_map = _wcag_map_from_outcomes(outcomes)
-    crit_list = [_outcome_to_dict(o) for o in outcomes]
 
     # recomendaciones según capacidades y NAs
     consider_rendered: List[str] = []
@@ -359,9 +368,59 @@ def scrape_and_audit(
         if caps.get("ai_helpful") and "ai_info" not in d:
             consider_ai.append(o.code)
 
+    ai_reports: Dict[str, Any] = {}
+    ai_codes: List[str] = []
+    aggregator_used = False
+    if ai_aggregator:
+        if ai_aggregator.has_issues():
+            logger.info("AI aggregator running (mode=%s use_ai=%s)", mode, use_ai)
+            ai_reports, ai_codes = ai_aggregator.run()
+            aggregator_used = bool(ai_reports)
+            if ai_codes:
+                # Marcar outcomes procesados por IA con source="ai"
+                ai_codes_set = set(ai_codes)
+                for o in outcomes:
+                    if o.code in ai_codes_set:
+                        o.source = "ai"
+                        if o.details:
+                            o.details["ai_analyzed"] = True
+                        logger.debug("Marked %s as source=ai", o.code)
+                
+                handled = set(ai_codes)
+                consider_ai = [c for c in consider_ai if c not in handled]
+        else:
+            logger.info(
+                "AI aggregator skipped: no failing/partial issues queued (mode=%s use_ai=%s)",
+                mode,
+                use_ai,
+            )
+
+    # Recalcular stats después de actualizar sources con AI
     verdict_counts = _verdict_counts(outcomes)
     used = _used_codes_by_source(outcomes)
     effective_mode = _mode_effective(outcomes)
+    if aggregator_used:
+        effective_mode = "AI"
+    
+    # Regenerar wcag_map y crit_list con sources actualizados
+    wcag_map = _wcag_map_from_outcomes(outcomes)
+    crit_list = [_outcome_to_dict(o) for o in outcomes]
+    
+    # Timing final
+    audit_total_ms = int((time.time() - audit_start) * 1000)
+    logger.info(
+        "[AUDIT] Completado en %dms | "
+        "Criterios: %d (pass=%d, fail=%d, partial=%d, na=%d) | "
+        "AI: %s | Score: %s",
+        audit_total_ms,
+        len(outcomes),
+        verdict_counts.get("pass", 0),
+        verdict_counts.get("fail", 0),
+        verdict_counts.get("partial", 0),
+        verdict_counts.get("na", 0),
+        "YES" if ai_codes else "NO",
+        f"{score_value*100:.1f}%" if score_value else "N/A"
+    )
     
     return {
         "status_code": meta.get("status_code"),
@@ -373,11 +432,11 @@ def scrape_and_audit(
         "criterion_results": crit_list,
         "score_breakdown": per_level,
         "rendered": bool(rendered_used_codes),
-        "rendered_codes": rendered_used_codes,
-        "rendered_codes": used["rendered"],   
-        "ai_codes": used["ai"],               
-        "mode_effective": effective_mode,     
-        "verdict_counts": verdict_counts,   
+        "rendered_codes": used["rendered"],
+        "ai_codes": ai_codes,
+        "ai_principle_reports": ai_reports,
+        "mode_effective": effective_mode,
+        "verdict_counts": verdict_counts,
         "recommendations": {
             "consider_rendered_for": sorted(set(consider_rendered)),
             "consider_ai_for": sorted(set(consider_ai)) if (use_ai or mode == CheckMode.AI) else []

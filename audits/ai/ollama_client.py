@@ -17,10 +17,8 @@ DEFAULT_MODEL = getattr(settings, "OLLAMA_MODEL", os.environ.get("OLLAMA_MODEL",
 # Reutiliza conexiones HTTP (más estable y rápido)
 _SESSION = requests.Session()
 
-
 class OllamaClientError(Exception):
     pass
-
 
 def _build_options(
     temperature: float,
@@ -312,8 +310,8 @@ def ask_json(
     model: Optional[str] = None,
     temperature: float = 0.1,
     max_tokens: int = 800,
-    timeout: int = 300,
-    max_retries: int = 2,
+    timeout: int = 600,
+    max_retries: int = 3,
 ) -> Dict[str, Any]:
     """
     Pide explícitamente JSON usando /api/chat.
