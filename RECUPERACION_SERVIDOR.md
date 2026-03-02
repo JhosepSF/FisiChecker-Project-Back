@@ -47,8 +47,30 @@ Editar el archivo de configuración:
 sudo nano /etc/nginx/sites-enabled/fisichecker
 ```
 
-Asegúrate de tener:
+Asegúrate de tener estos timeouts para la API (IA demora 15-18 min):
 ```
+location /api/ {
+    proxy_pass http://gunicorn;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_connect_timeout 1200s;
+    proxy_send_timeout 1200s;
+    proxy_read_timeout 1200s;
+}
+
+location /admin/ {
+    proxy_pass http://gunicorn;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_connect_timeout 1200s;
+    proxy_send_timeout 1200s;
+    proxy_read_timeout 1200s;
+}
+
 location /app/ {
     alias /var/www/front/dist/;
     try_files $uri $uri/ /index.html;
@@ -69,7 +91,7 @@ sudo systemctl restart nginx
 ```
 source /var/www/fisichecker/venv/bin/activate
 pkill gunicorn
-gunicorn FisiChecker.wsgi:application --bind unix:/var/www/fisichecker/gunicorn.sock --env DJANGO_SETTINGS_MODULE=FisiChecker.settings --daemon
+gunicorn FisiChecker.wsgi:application --bind unix:/var/www/fisichecker/gunicorn.sock --timeout 1200 --env DJANGO_SETTINGS_MODULE=FisiChecker.settings --daemon
 sudo chown www-data:www-data /var/www/fisichecker/gunicorn.sock
 
 sudo systemctl daemon-reload
